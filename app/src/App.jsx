@@ -1,152 +1,122 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { ThemeProvider, CssBaseline, Box, CircularProgress } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
 import Home from "../src/Pages/Home";
-import { Box, CssBaseline, ThemeProvider, createTheme } from "@mui/material";
-
-// Create a simple default theme without dark/light mode switching
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#3f51b5',
-    },
-    secondary: {
-      main: '#f50057',
-    },
-    background: {
-      default: '#f5f5f5',
-      paper: '#ffffff',
-    },
-  },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    h4: {
-      fontWeight: 500,
-    },
-  },
-  components: {
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          transition: 'transform 0.3s, box-shadow 0.3s',
-          '&:hover': {
-            transform: 'translateY(-5px)',
-            boxShadow: '0 8px 16px rgba(0,0,0,0.1)',
-          },
-        },
-      },
-    },
-  },
-});
-
-// Login component from src/Pages/Login.jsx
-const Login = ({ onLogin }) => {
-  const hardcodedEmail = "mail@manojgowda.in";
-  const hardcodedPassword = "Manoj@2002";
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (email === hardcodedEmail && password === hardcodedPassword) {
-      sessionStorage.setItem("isLoggedIn", "true");
-      onLogin(true);
-    } else {
-      setError("Invalid email or password");
-    }
-  };
-
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-        justifyContent: "center",
-        alignItems: "center",
-        bgcolor: "background.default",
-        p: 3,
-      }}
-    >
-      <form
-        onSubmit={handleSubmit}
-        style={{ 
-          maxWidth: 400, 
-          width: "100%",
-          margin: "auto", 
-          padding: 20, 
-          backgroundColor: "#fff",
-          borderRadius: 8,
-          boxShadow: "0 3px 10px rgba(0,0,0,0.1)"
-        }}
-      >
-        <h2>Login</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <div style={{ marginBottom: 10 }}>
-          <label>Email:</label>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{ width: "100%", padding: "8px" }}
-          />
-        </div>
-        <div style={{ marginBottom: 10 }}>
-          <label>Password:</label>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: "100%", padding: "8px" }}
-          />
-        </div>
-        <button 
-          type="submit" 
-          style={{ 
-            padding: "8px 16px",
-            backgroundColor: "#3f51b5",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-            fontSize: "16px",
-          }}
-        >
-          Login
-        </button>
-      </form>
-      
-      <Footer />
-    </Box>
-  );
-};
-
-// Simple Footer component for login page
-const Footer = () => {
-  return (
-    <Box
-      component="footer"
-      sx={{
-        py: 2,
-        mt: 4,
-        textAlign: "center",
-        color: "text.secondary",
-      }}
-    >
-      © {new Date().getFullYear()} Media Manager. All rights reserved.
-    </Box>
-  );
-};
+import Login from "../src/Pages/Login";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Create black and blue theme
+  const theme = useMemo(() => 
+    createTheme({
+      palette: {
+        mode: 'dark',
+        primary: {
+          main: '#2196f3', // Blue
+          light: '#64b5f6',
+          dark: '#0d47a1',
+        },
+        secondary: {
+          main: '#f50057', // Pink accent
+        },
+        background: {
+          default: '#121212',
+          paper: '#1e1e1e',
+          darker: '#0a0a0a',
+        },
+        text: {
+          primary: '#ffffff',
+          secondary: '#b0b0b0',
+        },
+      },
+      typography: {
+        fontFamily: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+        h4: {
+          fontWeight: 600,
+          letterSpacing: '0.02em',
+        },
+        h6: {
+          fontWeight: 500,
+        },
+        button: {
+          textTransform: 'none',
+          fontWeight: 500,
+        }
+      },
+      shape: {
+        borderRadius: 8,
+      },
+      components: {
+        MuiAppBar: {
+          styleOverrides: {
+            root: {
+              background: 'linear-gradient(90deg, #121212 0%, #1e1e1e 100%)',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+            },
+          },
+        },
+        MuiButton: {
+          styleOverrides: {
+            root: {
+              boxShadow: 'none',
+              '&:hover': {
+                boxShadow: '0 4px 8px rgba(33, 150, 243, 0.3)',
+                transform: 'translateY(-2px)',
+              },
+              transition: 'all 0.2s ease-in-out',
+            },
+          },
+        },
+        MuiCard: {
+          styleOverrides: {
+            root: {
+              backgroundImage: 'linear-gradient(145deg, rgba(30,30,30,1) 0%, rgba(20,20,20,1) 100%)',
+              boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
+              transition: 'transform 0.3s, box-shadow 0.3s',
+              overflow: 'hidden',
+              '&:hover': {
+                transform: 'translateY(-5px)',
+                boxShadow: '0 12px 28px rgba(0,0,0,0.25)',
+              },
+            },
+          },
+        },
+        MuiPaper: {
+          styleOverrides: {
+            root: {
+              backgroundImage: 'linear-gradient(145deg, rgba(30,30,30,0.7) 0%, rgba(25,25,25,0.8) 100%)',
+            },
+          },
+        },
+        MuiDrawer: {
+          styleOverrides: {
+            paper: {
+              background: 'linear-gradient(180deg, #121212 0%, #1a1a1a 100%)',
+              borderRight: '1px solid rgba(255,255,255,0.05)',
+            },
+          },
+        },
+      },
+    }), []
+  );
 
   useEffect(() => {
-    const loggedIn = sessionStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loggedIn);
+    // Simulate loading and auth check
+    const checkAuth = async () => {
+      setLoading(true);
+      // Check session storage for login status
+      const loggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+      setIsLoggedIn(loggedIn);
+      
+      // Artificial delay to show loading animation
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setLoading(false);
+    };
+    
+    checkAuth();
   }, []);
 
   const handleLogin = (status) => {
@@ -157,6 +127,58 @@ const App = () => {
     sessionStorage.removeItem("isLoggedIn");
     setIsLoggedIn(false);
   };
+
+  if (loading) {
+    return (
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+            background: 'linear-gradient(135deg, #121212 0%, #0d47a1 100%)',
+          }}
+        >
+          <Box sx={{ position: 'relative' }}>
+            <CircularProgress
+              size={80}
+              thickness={4}
+              sx={{
+                color: theme.palette.primary.main,
+                animation: 'pulse 1.5s ease-in-out infinite',
+                '@keyframes pulse': {
+                  '0%': { opacity: 1 },
+                  '50%': { opacity: 0.5 },
+                  '100%': { opacity: 1 },
+                },
+              }}
+            />
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Box
+                component="img"
+                src="/logo.svg"
+                alt="Media Manager"
+                sx={{ width: 40, height: 40 }}
+              />
+            </Box>
+          </Box>
+        </Box>
+      </ThemeProvider>
+    );
+  }
 
   return (
     <ThemeProvider theme={theme}>
