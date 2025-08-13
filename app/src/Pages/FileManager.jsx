@@ -406,6 +406,7 @@ const FileManager = ({ currentCategory, searchQuery }) => {
 
   // Download file helper
   const downloadFile = (file) => {
+    console.log("file", file);
     const link = document.createElement("a");
     link.href = file.url;
     link.download = file.name;
