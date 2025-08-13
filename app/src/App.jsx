@@ -128,58 +128,36 @@ const App = () => {
     setIsLoggedIn(false);
   };
 
-  if (loading) {
-    return (
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Box
+ if (loading) {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          background: 'linear-gradient(135deg, #121212 0%, #0d47a1 100%)',
+        }}
+      >
+        <CircularProgress
+          size={80}
+          thickness={4}
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100vh',
-            background: 'linear-gradient(135deg, #121212 0%, #0d47a1 100%)',
+            color: theme.palette.primary.main,
+            animation: 'pulse 1.5s ease-in-out infinite',
+            '@keyframes pulse': {
+              '0%': { opacity: 1 },
+              '50%': { opacity: 0.5 },
+              '100%': { opacity: 1 },
+            },
           }}
-        >
-          <Box sx={{ position: 'relative' }}>
-            <CircularProgress
-              size={80}
-              thickness={4}
-              sx={{
-                color: theme.palette.primary.main,
-                animation: 'pulse 1.5s ease-in-out infinite',
-                '@keyframes pulse': {
-                  '0%': { opacity: 1 },
-                  '50%': { opacity: 0.5 },
-                  '100%': { opacity: 1 },
-                },
-              }}
-            />
-            <Box
-              sx={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                bottom: 0,
-                right: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Box
-                component="img"
-                src="/logo.svg"
-                alt="Media Manager"
-                sx={{ width: 40, height: 40 }}
-              />
-            </Box>
-          </Box>
-        </Box>
-      </ThemeProvider>
-    );
-  }
-
+        />
+      </Box>
+    </ThemeProvider>
+  );
+}
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

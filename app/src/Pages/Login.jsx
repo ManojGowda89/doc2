@@ -29,7 +29,8 @@ const Login = ({ onLogin }) => {
   const credentials = [
     { email: "mail@manojgowda.in", password: "Manoj@2002" },
     { email: "admin@example.com", password: "admin123" },
-    { email: "test@example.com", password: "testpass" }
+    { email: "test@example.com", password: "testpass" },
+    { email: "sanjay@mail.skoegle.com", password: "Skoegle@2025" }
   ];
 
   const [email, setEmail] = useState("");
