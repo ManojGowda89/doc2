@@ -16,7 +16,7 @@ const __dirname = dirname(__filename);
 
 export const createApp = () => {
   const app = express();
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT || 8000;
 
   app.use(
     morgan('dev', {
