@@ -107,7 +107,7 @@ const FileManager = ({ currentCategory, searchQuery }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   
   // States for UI
-  const [viewMode, setViewMode] = useState("grid");
+  const [viewMode, setViewMode] = useState("list");
   
   // States for file management
   const [files, setFiles] = useState([]);
